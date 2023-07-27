@@ -42,7 +42,7 @@ bool enableDrivePID = true;
 
 double PID(){
 
-    PIDcontroller pid;
+    PIDcontroller pid(0, 0);
 
     if(enableDrivePID == true){
         resetSensors = 0;
