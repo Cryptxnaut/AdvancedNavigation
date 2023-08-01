@@ -1,4 +1,9 @@
 #include "main.h"
+#include "Globals.h"
+//#include "PID.h"
+#include "api.h"
+
+
 
 /**
  * A callback function for LLEMU's center button.
@@ -24,7 +29,7 @@ void on_center_button() {
  */
 void initialize() {
 	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Hello PROS User!");
+	pros::lcd::set_text(1, "Hello");
 
 	pros::lcd::register_btn1_cb(on_center_button);
 }
@@ -45,7 +50,24 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() {
+	pros::Controller master(pros::E_CONTROLLER_MASTER);
+	pros::Motor FrontLeft(15, true);   
+	pros::Motor FrontRight(16);
+	pros::Motor MiddleLeft(13);
+	pros::Motor MiddleRight(8, true);
+	pros::Motor BackLeft(20);
+	pros::Motor BackRight(14, true);
+
+	pros::Imu Inertial(12);
+	pros::Vision VisionSensor(9);
+
+	pros::Motor_Group leftMotorGroup ({FrontLeft, MiddleLeft, BackLeft});
+	pros::Motor_Group rightMotorGroup ({FrontRight, MiddleRight, BackRight});
+
+	leftMotorGroup.move_relative(1000, 100);
+	rightMotorGroup.move_relative(1000, 100);
+}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -58,26 +80,9 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
-
-/**
- * Runs the operator control code. This function will be started in its own task
- * with the default priority and stack size whenever the robot is enabled via
- * the Field Management System or the VEX Competition Switch in the operator
- * control mode.
- *
- * If no competition control is connected, this function will run immediately
- * following initialize().
- *
- * If the robot is disabled or communications is lost, the
- * operator control task will be stopped. Re-enabling the robot will restart the
- * task, not resume it from where it left off.
- */
-void opcontrol() {
-	
-
+void autonomous() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor FrontLeft(15, true);
+	pros::Motor FrontLeft(15, true);   
 	pros::Motor FrontRight(16);
 	pros::Motor MiddleLeft(13);
 	pros::Motor MiddleRight(8, true);
@@ -87,8 +92,30 @@ void opcontrol() {
 	pros::Imu Inertial(12);
 	pros::Vision VisionSensor(9);
 
-	pros::Motor_Group leftMotorGroup ({FrontLeft, BackLeft});
-	pros::Motor_Group rightMotorGroup ({FrontRight, BackRight});
+	pros::Motor_Group leftMotorGroup ({FrontLeft, MiddleLeft, BackLeft});
+	pros::Motor_Group rightMotorGroup ({FrontRight, MiddleRight, BackRight});
+
+	leftMotorGroup.move_relative(1000, 100);
+	rightMotorGroup.move_relative(1000, 100);
+}
+
+
+void opcontrol() {
+	
+
+	pros::Controller master(pros::E_CONTROLLER_MASTER);
+	pros::Motor FrontLeft(15, true);   
+	pros::Motor FrontRight(16);
+	pros::Motor MiddleLeft(13);
+	pros::Motor MiddleRight(8, true);
+	pros::Motor BackLeft(20);
+	pros::Motor BackRight(14, true);
+
+	pros::Imu Inertial(12);
+	pros::Vision VisionSensor(9);
+
+	pros::Motor_Group leftMotorGroup ({FrontLeft, MiddleLeft, BackLeft});
+	pros::Motor_Group rightMotorGroup ({FrontRight, MiddleRight, BackRight});
 
   while (true) {
     int power = master.get_analog(ANALOG_LEFT_Y);
@@ -99,5 +126,5 @@ void opcontrol() {
     rightMotorGroup.move(right);
 
     pros::delay(2);
-}
+	}
 }
