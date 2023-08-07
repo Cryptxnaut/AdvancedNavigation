@@ -1,5 +1,7 @@
 #include "main.h"
 #include "Globals.h"
+#include "Pure-Pursuit.h"
+#include "Odometry.h"
 
 using namespace std;
 #include <math.h>
@@ -10,16 +12,7 @@ using namespace std;
 #include <vector>
 
 
-class PurePursuitClass {
-    public:
 
-    double DesiredX, DesiredY, DesiredHeading;
-    double ChangeinX, ChangeinY;
-    double TargetThetaRad, TargetThetaDeg, TargetDistance;
-    double IotaSquared, Gamma;
-    double TurnAngle;
-
-};
 
 void PurePursuit(){
     PurePursuitClass PurePursuit;
