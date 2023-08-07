@@ -26,7 +26,7 @@ using namespace std;
 #define COMPETITION_MODE false
 
 //Class
-class OdometryPurePursuit{
+class OdometryClass{
   public:
 
   //Odometry variables
@@ -61,7 +61,7 @@ class OdometryPurePursuit{
 
 
 void Odometry(){
-  OdometryPurePursuit odometry;
+  OdometryClass odometry;
   int loopcounter = 0;
 
   while(!COMPETITION_MODE){
