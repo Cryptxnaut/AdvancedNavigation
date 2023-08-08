@@ -21,11 +21,11 @@ void PurePursuit(){
 
     using wayPoint = std::pair<double, double>;
 
-    std::vector<wayPoint> coordinatePairs;
+    std::vector<wayPoint> path;
 
-    coordinatePairs.push_back(std::make_pair(1.0, 2.0));
-    coordinatePairs.push_back(std::make_pair(3.0, 4.0));
-    coordinatePairs.push_back(std::make_pair(5.0, 6.0));
+    path.push_back(std::make_pair(1.0, 2.0));
+    path.push_back(std::make_pair(3.0, 4.0));
+    path.push_back(std::make_pair(5.0, 6.0));
 
     // if(!coordinatePairs.empty()){
     //     const auto& lastPair = coordinatePairs.back();
