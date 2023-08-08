@@ -37,12 +37,10 @@ void PurePursuit(){
         Odometry.DeltaTheta,
         Odometry.DeltaTheta
     };
+
+
     
 
-    // wayPoints lastPoint = path.back();
-
-    // double lastX = lastPoint.x;
-    // double lastY = lastPoint.y;
 
     for(int i = 0; i < path.size(); i++){
         wayPoints lookaheadPoint = getLookaheadPoint(robot, path);
@@ -56,9 +54,17 @@ void PurePursuit(){
         double curvature = calculateCurvature(robot, path);
         double adjustedSpeed = MAX_SPEED / (1 + fabs(curvature));
 
+        double linearVelocity = Kp * headingError;
+        linearVelocity = std::max(adjustedSpeed, std::min( adjustedSpeed, linearVelocity));
+
+        double acceleration = (linearVelocity - robot.linearVelocity) / 0.1;
+        acceleration = std::max(MAX_ACCELERATION, std::min(MAX_ACCELERATION, acceleration));
+
+        robot.theta += headingError;
+        robot.linearVelocity += acceleration * 0.1;
+
 
     }
-
 }
 
     

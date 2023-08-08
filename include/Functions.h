@@ -23,6 +23,8 @@ struct wayPoints{
 const double LOOKAHEAD_DISTANCE = 0.5;
 const double MAX_SPEED = 1.0;
 const double MAX_ACCELERATION = 1.0;
+const double MAX_ANGULAR_VELOCITY = 1.0;
+const double Kp = 0.5;
 
 wayPoints deCasteljau(const std::vector<wayPoints>& pathPoints, double t);
 
