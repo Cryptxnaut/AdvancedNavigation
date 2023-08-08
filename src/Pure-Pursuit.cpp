@@ -5,6 +5,7 @@
 #include "Odometry.h"
 
 using namespace std;
+
 #include <math.h>
 #include <cmath>
 #include <algorithm>
@@ -21,25 +22,20 @@ void PurePursuit(){
 
     using wayPoint = std::pair<double, double>;
 
-    std::vector<wayPoints> path;
+    std::vector<wayPoints> path = {
+        {0.0, 0.0},
+        {0.0, 1.0},
+        {1.0, 1.0},
+        {1.0, 0.0},
+        {0.0, 0.0}
+    };
 
-    path.push_back(std::make_pair(1.0, 2.0));
-    path.push_back(std::make_pair(3.0, 4.0));
-    path.push_back(std::make_pair(5.0, 6.0));
+    wayPoints lastPoint = path.back();
 
-    // if(!coordinatePairs.empty()){
-    //     const auto& lastPair = coordinatePairs.back();
-    // }
+    double lastX = lastPoint.x;
+    double lastY = lastPoint.y;
 
-
-    // if(coordinatePairs.size() >= 2){
-    //     double distance = calculateDistance(coordinatePairs.front(), coordinatePairs.back());
-    // }
-
-
-  
-
+ }
 
     
 
-}

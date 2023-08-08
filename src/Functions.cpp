@@ -85,5 +85,17 @@ wayPoints getLookaheadPoint(const robotState& robot, const std::vector<wayPoints
 
     wayPoints lastPoint = path[path.size() - 1];
     return lastPoint;
+}
 
+double calculateCurvature(const robotState& robot, const std::vector<wayPoints>& path){
+    int closestPoint = getClosestPoint(robot, path);
+    int furthestPoint = getFurthestPoint(robot, path);
+
+    double d = distance(path[closestPoint].x, path[closestPoint].y, path[furthestPoint].x, path[furthestPoint].y);
+    if(d == 0){
+        return 0;
+    }
+
+    double curvature = 2 * sin(0.5 * distance(path[closestPoint].x, path[closestPoint].y, robot.x, robot.y) / d);
+    return curvature;
 }

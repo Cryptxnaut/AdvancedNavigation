@@ -32,7 +32,6 @@ using namespace std;
 
 void Odometry(){
   OdometryClass odometry;
-  int loopcounter = 0;
 
   while(!COMPETITION_MODE){
 
@@ -77,6 +76,13 @@ void Odometry(){
 
   }
 }
+
+
+// void odometryTask(void* param){
+//   while(true){
+//     odometry.Odometry();
+//     pros::delay(5);
+//   }
 
 
 
