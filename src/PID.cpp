@@ -7,7 +7,7 @@
 #include "Globals.h"
 #include "PID.h"
 
-double distance;
+//double distance;
 ////////////////////////////
 double kP = 0.0;
 double kI = 0.0;

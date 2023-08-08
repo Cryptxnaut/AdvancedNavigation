@@ -1,7 +1,7 @@
 #include "main.h"
 #include "Globals.h"
 #include "Functions.h"
-#include "Pure-Pursuit.h"
+#include "PurePursuit.h"
 #include "MotorMovement.h"
 #include "Odometry.h"
 
@@ -17,27 +17,20 @@ using namespace std;
 
 
 //const std::vector<wayPoints>& path, const robotState& robot
-void PurePursuit(std::vector<wayPoints>& path){
-    PurePursuitClass PurePursuit;
-    OdometryClass Odometry;
+void PurePursuit(std::vector<wayPoints>& path, robotState& robot){
+    // PurePursuitClass PurePursuit;
+    // OdometryClass Odometry;
 
-    using wayPoint = std::pair<double, double>;
+    //using wayPoint = std::pair<double, double>;
 
-    // std::vector<wayPoints> path = {
-    //     {0.0, 0.0},
-    //     {0.0, 1.0},
-    //     {1.0, 1.0},
-    //     {1.0, 0.0},
-    //     {0.0, 0.0}
+    
+    // robotState robot = {
+    //     Odometry.X,
+    //     Odometry.Y,
+    //     Odometry.Theta,
+    //     Odometry.DeltaTheta,
+    //     Odometry.DeltaTheta
     // };
-
-    robotState robot = {
-        Odometry.X,
-        Odometry.Y,
-        Odometry.Theta,
-        Odometry.DeltaTheta,
-        Odometry.DeltaTheta
-    };
 
     //final point coordinates
     wayPoints finalPoint = path.back();    
@@ -102,6 +95,10 @@ void PurePursuit(std::vector<wayPoints>& path){
 
     }
 
+    leftMotorGroup.move_velocity(0);
+    rightMotorGroup.move_velocity(0);
+
+    std::cout << "Robot has reached the final destination" << std::endl;
 
     
 }

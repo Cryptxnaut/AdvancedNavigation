@@ -1,6 +1,6 @@
 #include "main.h"
 #include "Globals.h"
-#include "Pure-Pursuit.h"
+#include "PurePursuit.h"
 #include "Odometry.h"
 
 using namespace std;

@@ -1,5 +1,10 @@
 #include "main.h"
 #include "Globals.h"
+#include "Functions.h"
+#include "PurePursuit.h"
+#include "MotorMovement.h"
+#include "Odometry.h"
+
 //#include "PID.h"
 #include "api.h"
 
@@ -95,10 +100,31 @@ void autonomous() {
 	pros::Motor_Group leftMotorGroup ({FrontLeft, MiddleLeft, BackLeft});
 	pros::Motor_Group rightMotorGroup ({FrontRight, MiddleRight, BackRight});
 
-	leftMotorGroup.move_relative(1000, 100);
-	rightMotorGroup.move_relative(1000, 100);
-}
+	PurePursuitClass PurePursuit;
+	OdometryClass Odometry;	
 
+	std::vector<wayPoints> path = {
+        {0.0, 0.0},
+        {0.0, 1.0},
+        {1.0, 1.0},
+        {1.0, 0.0},
+        {0.0, 0.0}
+    };
+
+	robotState robot = {
+		Odometry.X,
+		Odometry.Y,
+		Odometry.Theta,
+		Odometry.DeltaTheta,
+		Odometry.DeltaTheta
+	};
+
+	PurePursuit.PurePursuit(path, robot);
+
+	
+
+
+}
 
 void opcontrol() {
 	

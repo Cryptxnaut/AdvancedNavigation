@@ -4,21 +4,9 @@
 #include <vector>
 #include <math.h>
 #include <cmath>
+#include "PurePursuit.h"
 
-struct robotState{
-  double x;
-  double y;
-  double theta;
-  double linearVelocity;
-  double angularVelocity;
-};
 
-//using wayPoints = std::pair<double, double>;
-
-struct wayPoints{
-  double x;
-  double y;
-};
 
 const double LOOKAHEAD_DISTANCE = 0.5;
 const double MAX_SPEED = 1.0;
