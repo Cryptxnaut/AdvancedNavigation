@@ -120,10 +120,7 @@ void autonomous() {
 	};
 
 	PurePursuit.PurePursuit(path, robot);
-
 	
-
-
 }
 
 void opcontrol() {

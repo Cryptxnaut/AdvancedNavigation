@@ -18,24 +18,9 @@ using namespace std;
 
 //const std::vector<wayPoints>& path, const robotState& robot
 void PurePursuit(std::vector<wayPoints>& path, robotState& robot){
-    // PurePursuitClass PurePursuit;
-    // OdometryClass Odometry;
-
-    //using wayPoint = std::pair<double, double>;
-
-    
-    // robotState robot = {
-    //     Odometry.X,
-    //     Odometry.Y,
-    //     Odometry.Theta,
-    //     Odometry.DeltaTheta,
-    //     Odometry.DeltaTheta
-    // };
 
     //final point coordinates
     wayPoints finalPoint = path.back();    
-
-
     
     wayPoints lookaheadPoint = getLookaheadPoint(robot, path);
 
@@ -100,7 +85,6 @@ void PurePursuit(std::vector<wayPoints>& path, robotState& robot){
 
     std::cout << "Robot has reached the final destination" << std::endl;
 
-    
 }
 
     

@@ -80,8 +80,7 @@ wayPoints getLookaheadPoint(const robotState& robot, const std::vector<wayPoints
 
             wayPoints lookAhead = deCasteljau(controlPoints, r);
             return lookAhead;
-
-
+            
         }
  
         remainingDistance -= d;
