@@ -32,6 +32,10 @@ int getClosestPoint(const robotState& robot, const std::vector<wayPoints>& path)
 
 wayPoints getLookaheadPoint(const robotState& robot, const std::vector<wayPoints>& path);
 
+double calculateCurvature(const robotState& robot, const std::vector<wayPoints>& path);
+
+robotState robot();
+
 
 #endif
 
