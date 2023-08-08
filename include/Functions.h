@@ -31,6 +31,8 @@ wayPoints deCasteljau(const std::vector<wayPoints>& pathPoints, double t);
 
 double distance(double x1, double y1, double x2, double y2);
 
+double distanceToFinalPoint(const robotState& robot, const wayPoints& finalPoint);
+
 int getClosestPoint(const robotState& robot, const std::vector<wayPoints>& path);
 
 wayPoints getLookaheadPoint(const robotState& robot, const std::vector<wayPoints>& path);

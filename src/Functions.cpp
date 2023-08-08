@@ -22,6 +22,10 @@ double distance(double x1, double y1, double x2, double y2){
     return std::sqrt(std::pow(x2 - x1, 2) + std::pow(y2 - y1, 2));
 }
 
+double distanceToFinalPoint(const robotState& robot, const wayPoints& finalPoint){
+    return distance(robot.x, robot.y, finalPoint.x, finalPoint.y);
+}
+
 
 //Finding the point on the path closest to the robots current state Lookahead point
 int getClosestPoint(const robotState& robot, const std::vector<wayPoints>& path){
