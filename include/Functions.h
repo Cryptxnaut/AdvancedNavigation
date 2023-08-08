@@ -5,18 +5,21 @@
 #include <math.h>
 #include <cmath>
 
-struct Point{
+struct robotState{
   double x;
   double y;
+  double theta;
+  double linearVelocity;
+  double angularVelocity;
 };
 
 using wayPoint = std::pair<double, double>;
 
-Point deCasteljau(const std::vector<Point>& wayPoints, double t);
+robotState deCasteljau(const std::vector<robotState>& wayPoints, double t);
 
-double calculateDistance(const std::pair<double, double>& point1, const std::pair<double, double>& point2);
+double distance(double x1, double y1, double x2, double y2);
 
-int getClosestPoint(const Point& robot, const std::vector<wayPoint>& path);
+int getClosestPoint(const robotState& robot, const std::vector<wayPoint>& path);
 
 #endif
 

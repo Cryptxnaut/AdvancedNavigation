@@ -1,14 +1,14 @@
 #include "Functions.h"
 
 
-Point deCasteljau(const std::vector<Point>& wayPoints, double t){
+robotState deCasteljau(const std::vector<robotState>& wayPoints, double t){
   if(wayPoints.size() == 1){
     return wayPoints[0];
   }
   else{
-    std::vector<Point> newWayPoints;
+    std::vector<robotState> newWayPoints;
     for(int i = 0; i < wayPoints.size() - 1; i++){
-      Point p;
+      robotState p;
       p.x = (1 - t) * wayPoints[i].x + t * wayPoints[i + 1].x;
       p.y = (1 - t) * wayPoints[i].y + t * wayPoints[i + 1].y;
       newWayPoints.push_back(p);
@@ -17,13 +17,21 @@ Point deCasteljau(const std::vector<Point>& wayPoints, double t){
   }
 }
 
-double calculateDistance(const std::pair<double, double>& point1, const std::pair<double, double>& point2){
-    double dx = point1.first - point2.first;
-    double dy = point1.second - point2.second;
-    return sqrt(dx * dx + dy * dy);
+double distance(double x1, double y1, double x2, double y2){
+    return std::sqrt(std::pow(x2 - x1, 2) + std::pow(y2 - y1, 2));
 }
 
-int getClosestPoint(const Point& robot, const std::vector<wayPoint>& path){
+//Finding the point on the path closest to the robots current state
+int getClosestPoint(const robotState& robot, const std::vector<wayPoint>& path){
+    double minDistance = INFINITY;
+    int minIndex = 0;
 
-
+    for(int i = 0; i < path.size(); i++){
+        double d = distance(robot.x, robot.y, path[i].first, path[i].second);
+        if(d < minDistance){
+            minDistance = d;
+            minIndex = i;
+        }
+    }
+    return minIndex;
 }
