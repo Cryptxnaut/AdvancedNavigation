@@ -21,7 +21,7 @@ void PurePursuit(){
 
     using wayPoint = std::pair<double, double>;
 
-    std::vector<wayPoint> path;
+    std::vector<wayPoints> path;
 
     path.push_back(std::make_pair(1.0, 2.0));
     path.push_back(std::make_pair(3.0, 4.0));

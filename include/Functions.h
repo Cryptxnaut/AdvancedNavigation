@@ -13,13 +13,25 @@ struct robotState{
   double angularVelocity;
 };
 
-using wayPoint = std::pair<double, double>;
+//using wayPoints = std::pair<double, double>;
 
-robotState deCasteljau(const std::vector<robotState>& wayPoints, double t);
+struct wayPoints{
+  double x;
+  double y;
+};
+
+const double LOOKAHEAD_DISTANCE = 0.5;
+const double MAX_SPEED = 1.0;
+const double MAX_ACCELERATION = 1.0;
+
+wayPoints deCasteljau(const std::vector<wayPoints>& pathPoints, double t);
 
 double distance(double x1, double y1, double x2, double y2);
 
-int getClosestPoint(const robotState& robot, const std::vector<wayPoint>& path);
+int getClosestPoint(const robotState& robot, const std::vector<wayPoints>& path);
+
+wayPoints getLookaheadPoint(const robotState& robot, const std::vector<wayPoints>& path);
+
 
 #endif
 

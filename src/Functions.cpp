@@ -1,19 +1,19 @@
 #include "Functions.h"
 
 
-robotState deCasteljau(const std::vector<robotState>& wayPoints, double t){
-  if(wayPoints.size() == 1){
-    return wayPoints[0];
+wayPoints deCasteljau(const std::vector<wayPoints>& pathPoints, double t){
+  if(pathPoints.size() == 1){
+    return pathPoints[0];
   }
   else{
-    std::vector<robotState> newWayPoints;
-    for(int i = 0; i < wayPoints.size() - 1; i++){
-      robotState p;
-      p.x = (1 - t) * wayPoints[i].x + t * wayPoints[i + 1].x;
-      p.y = (1 - t) * wayPoints[i].y + t * wayPoints[i + 1].y;
-      newWayPoints.push_back(p);
+    std::vector<wayPoints> newPathPoints;
+    for(int i = 0; i < pathPoints.size() - 1; i++){
+      wayPoints p;
+      p.x = (1 - t) * pathPoints[i].x + t * pathPoints[i + 1].x;
+      p.y = (1 - t) * pathPoints[i].y + t * pathPoints[i + 1].y;
+      newPathPoints.push_back(p);
     }
-    return deCasteljau(newWayPoints, t);
+    return deCasteljau(newPathPoints, t);
   }
 }
 
@@ -21,13 +21,14 @@ double distance(double x1, double y1, double x2, double y2){
     return std::sqrt(std::pow(x2 - x1, 2) + std::pow(y2 - y1, 2));
 }
 
+
 //Finding the point on the path closest to the robots current state Lookahead point
-int getClosestPoint(const robotState& robot, const std::vector<wayPoint>& path){
+int getClosestPoint(const robotState& robot, const std::vector<wayPoints>& path){
     double minDistance = INFINITY;
     int minIndex = 0;
 
     for(int i = 0; i < path.size(); i++){
-        double d = distance(robot.x, robot.y, path[i].first, path[i].second);
+        double d = distance(robot.x, robot.y, path[i].x, path[i].y);
         if(d < minDistance){
             minDistance = d;
             minIndex = i;
@@ -36,13 +37,15 @@ int getClosestPoint(const robotState& robot, const std::vector<wayPoint>& path){
     return minIndex;
 }
 
+
+
 //Finding the point on the path furthest from the robots current state claculating curvature
-int getFurthestPoint(const robotState& robot, const std::vector<wayPoint>& path){
+int getFurthestPoint(const robotState& robot, const std::vector<wayPoints>& path){
     double maxDistance = 0;
     int maxIndex = 0;
 
     for(int i = 0; i < path.size(); i++){
-        double d = distance(robot.x, robot.y, path[i].first, path[i].second);
+        double d = distance(robot.x, robot.y, path[i].x, path[i].y);
         if(d > maxDistance){
             maxDistance = d;
             maxIndex = i;
@@ -51,3 +54,36 @@ int getFurthestPoint(const robotState& robot, const std::vector<wayPoint>& path)
     return maxIndex;
 }
 
+wayPoints getLookaheadPoint(const robotState& robot, const std::vector<wayPoints>& path){
+    int closestpoint = getClosestPoint(robot, path);
+    double remainingDistance = LOOKAHEAD_DISTANCE;
+    int i = closestpoint;
+
+    while(remainingDistance > 0 && i < path.size() - 1){
+        double d = distance(path[i].x, path[i].y, path[i + 1].x, path[i + 1].y);
+        if(d > remainingDistance){
+            double r = remainingDistance / d;
+
+            std::vector<wayPoints> controlPoints;
+            wayPoints robotPoints;
+            robotPoints.x = robot.x;
+            robotPoints.y = robot.y;
+            controlPoints.push_back(robotPoints);
+
+            controlPoints.push_back(path[i]);
+            controlPoints.push_back(path[i + 1]);
+
+            wayPoints lookAhead = deCasteljau(controlPoints, r);
+            return lookAhead;
+
+
+        }
+ 
+        remainingDistance -= d;
+        i++;
+    }
+
+    wayPoints lastPoint = path[path.size() - 1];
+    return lastPoint;
+
+}
