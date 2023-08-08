@@ -1,5 +1,6 @@
 #include "main.h"
 #include "Globals.h"
+#include "Functions.h"
 #include "Pure-Pursuit.h"
 #include "Odometry.h"
 
@@ -18,19 +19,26 @@ void PurePursuit(){
     PurePursuitClass PurePursuit;
     OdometryClass Odometry;
 
-    std::vector<std::pair<double, double>> coordinatePairs;
+    using wayPoint = std::pair<double, double>;
+
+    std::vector<wayPoint> coordinatePairs;
 
     coordinatePairs.push_back(std::make_pair(1.0, 2.0));
     coordinatePairs.push_back(std::make_pair(3.0, 4.0));
     coordinatePairs.push_back(std::make_pair(5.0, 6.0));
 
-    if(!coordinatePairs.empty()){
-        const auto& lastPair = coordinatePairs.back();
-        std::cout << "Last Coordinates: (" << lastPair.first << ", " << lastPair.second << ")" << std::endl;
-    }
-    else{
-        std::cout << "No coordinates" << std::endl;
-    }
+    // if(!coordinatePairs.empty()){
+    //     const auto& lastPair = coordinatePairs.back();
+    // }
+
+
+    // if(coordinatePairs.size() >= 2){
+    //     double distance = calculateDistance(coordinatePairs.front(), coordinatePairs.back());
+    // }
+
+
+  
+
 
     
 
