@@ -46,9 +46,9 @@ void PurePursuit(){
         wayPoints lookaheadPoint = getLookaheadPoint(robot, path);
 
         int closestPointIndex = 0;
-        double minDistance = distance(lookaheadPoint.x, lookaheadPoint.y, path[0].x, path[0].y);
-        
+
         //Iterate throught the path points to find the closest lookahead point
+        double minDistance = distance(lookaheadPoint.x, lookaheadPoint.y, path[0].x, path[0].y);
         for(int i = 1; i < path.size(); i++){
             double d = distance(lookaheadPoint.x, lookaheadPoint.y, path[i].x, path[i].y);
             if(d < minDistance){

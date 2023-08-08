@@ -7,7 +7,6 @@
 #include "Globals.h"
 #include "PID.h"
 
-const double wheelDiameter = 3.250;
 double distance;
 ////////////////////////////
 double kP = 0.0;
