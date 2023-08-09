@@ -32,11 +32,11 @@ int getClosestPoint(const robotState& robot, const std::vector<wayPoints>& path)
     double minDistance = INFINITY;
     int minIndex = 0;
 
-    for(int i = 0; i < path.size(); i++){
-        double d = distance(robot.x, robot.y, path[i].x, path[i].y);
+    for(const auto& point : path){
+        double d = distance(robot.x, robot.y, point.x, point.y);
         if(d < minDistance){
             minDistance = d;
-            minIndex = i;
+            minIndex = &point - &path[0];
         }
     }
     return minIndex;
@@ -49,11 +49,11 @@ int getFurthestPoint(const robotState& robot, const std::vector<wayPoints>& path
     double maxDistance = 0;
     int maxIndex = 0;
 
-    for(int i = 0; i < path.size(); i++){
-        double d = distance(robot.x, robot.y, path[i].x, path[i].y);
+    for(const auto& point : path){
+        double d = distance(robot.x, robot.y, point.x, point.y);
         if(d > maxDistance){
             maxDistance = d;
-            maxIndex = i;
+            maxIndex = &point - &path[0];
         }
     }
     return maxIndex;
@@ -69,12 +69,12 @@ wayPoints getLookaheadPoint(const robotState& robot, const std::vector<wayPoints
         if(d > remainingDistance){
             double r = remainingDistance / d;
 
+            //std::vector<wayPoints> controlPoints = {wayPoints{robot.x, robot.y}, path[i], path[i + 1]};
             std::vector<wayPoints> controlPoints;
             wayPoints robotPoints;
             robotPoints.x = robot.x;
             robotPoints.y = robot.y;
             controlPoints.push_back(robotPoints);
-
             controlPoints.push_back(path[i]);
             controlPoints.push_back(path[i + 1]);
 
@@ -95,11 +95,13 @@ double calculateCurvature(const robotState& robot, const std::vector<wayPoints>&
     int closestPoint = getClosestPoint(robot, path);
     int furthestPoint = getFurthestPoint(robot, path);
 
-    double d = distance(path[closestPoint].x, path[closestPoint].y, path[furthestPoint].x, path[furthestPoint].y);
-    if(d == 0){
+    double closestDistance = distance(path[closestPoint].x, path[closestPoint].y, robot.x, robot.y);
+    double furthestDistance = distance(path[closestPoint].x, path[closestPoint].y, path[furthestPoint].x, path[furthestPoint].y);
+
+    if(furthestDistance == 0){
         return 0;
     }
 
-    double curvature = 2 * sin(0.5 * distance(path[closestPoint].x, path[closestPoint].y, robot.x, robot.y) / d);
+    double curvature = 2 * sin(0.5 * closestDistance / furthestDistance);
     return curvature;
 }

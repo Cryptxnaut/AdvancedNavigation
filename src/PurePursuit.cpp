@@ -21,22 +21,22 @@ void PurePursuit(std::vector<wayPoints>& path, robotState& robot){
 
     //final point coordinates
     wayPoints finalPoint = path.back();    
-    
     wayPoints lookaheadPoint = getLookaheadPoint(robot, path);
 
     int closestPointIndex = 0;
+    double minDistance = distance(lookaheadPoint.x, lookaheadPoint.y, path[0].x, path[0].y);
+
+    //Iterate throught the path points to find the closest lookahead point
+    for(int i = 1; i < path.size(); i++){
+        double d = distance(lookaheadPoint.x, lookaheadPoint.y, path[i].x, path[i].y);
+        if(d < minDistance){
+            minDistance = d;
+            closestPointIndex = i;
+        }
+    }
 
     while(distanceToFinalPoint(robot, finalPoint) > TARGET_DISTANCE_THRESHOLD){
-        //Iterate throught the path points to find the closest lookahead point
-        double minDistance = distance(lookaheadPoint.x, lookaheadPoint.y, path[0].x, path[0].y);
-        for(int i = 1; i < path.size(); i++){
-            double d = distance(lookaheadPoint.x, lookaheadPoint.y, path[i].x, path[i].y);
-            if(d < minDistance){
-                minDistance = d;
-                closestPointIndex = i;
-            }
-        }
-    
+        
         //t is the ratio of the closest point to the final point 0-1
         double t = static_cast<double>(closestPointIndex) / static_cast<double>(path.size() - 1);
     
