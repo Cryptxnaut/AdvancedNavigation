@@ -1,11 +1,11 @@
 
-#include <math.h>
-#include <stdlib.h>
-#include <iostream>
+// #include <math.h>
+// #include <stdlib.h>
+// #include <iostream>
 
-#include "main.cpp"
-#include "Globals.h"
-#include "PID.h"
+// #include "main.cpp"
+// #include "Globals.h"
+// #include "PID.h"
 
 
 // double getDesiredRotations(wheelDiameter, distance){
@@ -15,41 +15,41 @@
 // }
 
 //bool resetSensors = true;
-bool enableDrivePID = true;
+//bool enableDrivePID = true;
 
 
-double PID(){
+// double PID(){
 
-    PIDcontroller pid(0, 0);
-    pid.setDesiredValue(200);
+//     PIDcontroller pid(0, 0);
+//     pid.setDesiredValue(200);
 
-    if(enableDrivePID == true){
-        resetSensors = 0;
-    }
-    else{
-        resetSensors = 1;
-    }
+//     if(enableDrivePID == true){
+//         resetSensors = 0;
+//     }
+//     else{
+//         resetSensors = 1;
+//     }
 
-    leftMotorPosition = FrontLeft.get_position();
-    rightMotorPosition = FrontRight.get_position();
+//     leftMotorPosition = FrontLeft.get_position();
+//     rightMotorPosition = FrontRight.get_position();
   
-    averagePosition = (leftMotorPosition + rightMotorPosition)/2;
+//     averagePosition = (leftMotorPosition + rightMotorPosition)/2;
   
-    proportional = averagePosition - desiredValue;
+//     proportional = averagePosition - desiredValue;
   
-    intergral += proportional;
+//     intergral += proportional;
   
-    derivative = proportional - prevError;
+//     derivative = proportional - prevError;
   
-    motorPower = (proportional * kP + intergral * kI + derivative * kD) / 360;
+//     motorPower = (proportional * kP + intergral * kI + derivative * kD) / 360;
   
-    ////////////////////////////////
+//     ////////////////////////////////
   
-    leftMotorGroup.move_relative(desiredDistance, motorPower);
-    rightMotorGroup.move_relative(desiredDistance, motorPower);
+//     leftMotorGroup.move_relative(desiredDistance, motorPower);
+//     rightMotorGroup.move_relative(desiredDistance, motorPower);
   
-    prevError = proportional;
-    pros::delay(20);
+//     prevError = proportional;
+//     pros::delay(20);
   
-  return 1;
-}
+//   return 1;
+// }
