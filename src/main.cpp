@@ -119,7 +119,7 @@ void autonomous() {
 		Odometry.DeltaTheta
 	};
 
-	PurePursuit.PurePursuit(path, robot);
+	//PurePursuit.PurePursuit(path, robot);
 	
 }
 
@@ -149,5 +149,7 @@ void opcontrol() {
     rightMotorGroup.move(right);
 
     pros::delay(2);
+
+	OdometryClass Odometry;
 	}
 }
