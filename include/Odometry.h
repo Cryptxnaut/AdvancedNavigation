@@ -2,9 +2,10 @@
 
 #include <math.h>
 
+
 class OdometryClass{
     public:
-    void odometry();
+    
 
     //Odometry variables
     double DeltaL, DeltaR, DeltaB;
@@ -32,4 +33,10 @@ class OdometryClass{
     bool set_Heading = false;
     double PrevL = 0;
     double PrevR = 0;
+
+  void Odometry();
+
+   
 };
+
+

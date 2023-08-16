@@ -19,6 +19,10 @@ using namespace std;
 //const std::vector<wayPoints>& path, const robotState& robot
 void PurePursuit(std::vector<wayPoints>& path, robotState& robot){
 
+    // robotState robot;
+    // robot.x = 0.0; // Initial x-coordinate
+    // robot.y = 0.0; // Initial y-coordinate
+
     //final point coordinates
     wayPoints finalPoint = path.back();    
     wayPoints lookaheadPoint = getLookaheadPoint(robot, path);

@@ -33,46 +33,46 @@ using namespace std;
 void Odometry(){
   OdometryClass odometry;
 
-  while(!COMPETITION_MODE){
+  while(true){
 
 
-    odometry.CurrentL = FrontLeft.get_position();
-    odometry.CurrentR = FrontRight.get_position();
+    CurrentL = FrontLeft.get_position();
+    CurrentR = FrontRight.get_position();
     //CurrentS = BackEncoder.get_position();
 
     //Calculates the distance moved by the left and right odometry wheels
-    odometry.DeltaL = (odometry.CurrentL - odometry.PrevL) * WheelCircumference / tpr;
-    odometry.DeltaR = (odometry.CurrentR - odometry.PrevR) * WheelCircumference / tpr;
+    DeltaL = (CurrentL - PrevL) * WheelCircumference / tpr;
+    DeltaR = (CurrentR - PrevR) * WheelCircumference / tpr;
     //Delta S = (CurrentS - PrevS) * WheelCircumference / tpr;
 
     //returns the absolute values of DeltaL and R
-    odometry.DeltaL = fabs(odometry.DeltaL);
-    odometry.DeltaR = fabs(odometry.DeltaR);
+    DeltaL = fabs(DeltaL);
+    DeltaR = fabs(DeltaR);
     //DeltaS = fabs(DeltaR);
 
-    odometry.DeltaTheta = (odometry.DeltaL - odometry.DeltaR) / (Tl + Tr);
+    DeltaTheta = (DeltaL - DeltaR) / (Tl + Tr);
 
-    if(odometry.DeltaTheta == 0){
-      odometry.X += odometry.DeltaR * sin(odometry.Theta);
-      odometry.Y += odometry.DeltaR * cos(odometry.Theta);
+    if(DeltaTheta == 0){
+      X += DeltaR * sin(Theta);
+      Y += DeltaR * cos(Theta);
     }
     else {
-      odometry.YChord = 2 * (odometry.DeltaR / odometry.DeltaTheta + Tr) * sin(odometry.DeltaTheta / 2); //Y coordinate vector - X chord not required
+      YChord = 2 * (DeltaR / DeltaTheta + Tr) * sin(DeltaTheta / 2); //Y coordinate vector - X chord not required
       //XChord = 2 * (DeltaS / DeltaTheta + Ts) * sin(DeltaTheta / 2);
-      odometry.DeltaX = odometry.YChord * sin(odometry.Theta + (odometry.DeltaTheta / 2));
-      odometry.DeltaY = odometry.YChord * cos(odometry.Theta + (odometry.DeltaTheta / 2));
-      odometry.Theta += odometry.DeltaTheta;
-      odometry.X += odometry.DeltaX;
-      odometry.Y += odometry.DeltaY;
+      DeltaX = YChord * sin(Theta + (DeltaTheta / 2));
+      DeltaY = YChord * cos(Theta + (DeltaTheta / 2));
+      Theta += DeltaTheta;
+      X += DeltaX;
+      Y += DeltaY;
     }
 
-    odometry.OdometryHeading = Inertial.get_heading();
+    OdometryHeading = Inertial.get_heading();
 
     //Resetting the change in turn angle for the next loop
-    odometry.DeltaTheta = 0;
+    DeltaTheta = 0;
     //Resets the change in movement of the odometry wheels for the next movement
-    odometry.PrevL = odometry.CurrentL;
-    odometry.PrevR = odometry.CurrentR;
+    PrevL = CurrentL;
+    PrevR = CurrentR;
 
   }
 }
