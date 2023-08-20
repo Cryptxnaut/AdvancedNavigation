@@ -17,7 +17,8 @@ using namespace std;
 
 
 //const std::vector<wayPoints>& path, const robotState& robot
-void PurePursuit(std::vector<wayPoints>& path, robotState& robot){
+
+void PurePursuitClass::PurePursuit(std::vector<wayPoints>& path, robotState& robot){
 
     // robotState robot;
     // robot.x = 0.0; // Initial x-coordinate

@@ -121,7 +121,10 @@ void autonomous() {
 		Odometry.DeltaTheta
 	};
 
-	PurePursuit.PurePursuit(path, robot);
+	// PurePursuit.PurePursuit(path, robot);
+	OdometryClass odometryInstance;
+	odometryInstance.Odometry();
+	moveForward(3.25);
 	
 }
 
@@ -143,47 +146,55 @@ void opcontrol() {
 	pros::Motor_Group rightMotorGroup ({FrontRight, MiddleRight, BackRight});
 
 	OdometryClass odometryInstance;
+
+
+	// std::thread OdometryThread(odometry.Odometry);
+
+	// std::thread odometryThread([&odometry]() {
+    //     while (true) {
+    //         odometry.UpdateOdometry(); // Update odometry data
+
+    //         pros::delay(2);
+    //     }
+    // });
+
+	// try{
+	// 	while(true){
+	// 		int power = master.get_analog(ANALOG_LEFT_Y);
+    //         int turn = master.get_analog(ANALOG_RIGHT_X);
+    //         int left = power + turn;
+    //         int right = power - turn;
+    //         leftMotorGroup.move(left);
+    //         rightMotorGroup.move(right);
+
+    //         pros::delay(2);
+	// 	}
+	// }
+	// catch(const std::exception& e){
+	// 	OdometryThread.join();
+	// 	throw e;
+	// }
+
+
+	while (true) {
+
+
+    int power = master.get_analog(ANALOG_LEFT_Y);
+    int turn = master.get_analog(ANALOG_RIGHT_X);
+    int left = power + turn;
+    int right = power - turn;
+    leftMotorGroup.move(left);
+    rightMotorGroup.move(right);
+
+
+
 	odometryInstance.Odometry();
 
+    pros::delay(1000);
 
-	std::thread OdometryThread(odometry.Odometry);
+	
 
-	std::thread odometryThread([&odometry]() {
-        while (true) {
-            odometry.UpdateOdometry(); // Update odometry data
 
-            pros::delay(2);
-        }
-    });
-
-	try{
-		while(true){
-			int power = master.get_analog(ANALOG_LEFT_Y);
-            int turn = master.get_analog(ANALOG_RIGHT_X);
-            int left = power + turn;
-            int right = power - turn;
-            leftMotorGroup.move(left);
-            rightMotorGroup.move(right);
-
-            pros::delay(2);
-		}
 	}
-	catch(const std::exception& e){
-		OdometryThread.join();
-		throw e;
-	}
-
-
-	// while (true) {
-    // int power = master.get_analog(ANALOG_LEFT_Y);
-    // int turn = master.get_analog(ANALOG_RIGHT_X);
-    // int left = power + turn;
-    // int right = power - turn;
-    // leftMotorGroup.move(left);
-    // rightMotorGroup.move(right);
-
-    // pros::delay(2);
-
-	// }
     
 }

@@ -2,6 +2,8 @@
 #include "Globals.h"
 #include "PurePursuit.h"
 #include "Odometry.h"
+#include "api.h"
+#include "pros/screen.h"
 
 using namespace std;
 #include <math.h>
@@ -18,22 +20,20 @@ using namespace std;
 
 //constant variables
 #define WheelDiameter 3.25
-#define Tl 7.250
-#define Tr 7.250
+#define Tl 4.500 // centre to left encoder wheel
+#define Tr 4.500 // centre to right encoder wheel
 //#define Ts 7.250 // centre to back encoder wheel
 #define Tb 7.750
 #define WheelCircumference 10.21017612
-#define tpr 360
+#define tpr 36000
 
 #define COMPETITION_MODE false
 
 //Class
 
+void OdometryClass::Odometry(){
 
-void Odometry(){
-  OdometryClass odometry;
-
-  while(true){
+  //while(true){
 
 
     CurrentL = FrontLeft.get_position();
@@ -46,15 +46,16 @@ void Odometry(){
     //Delta S = (CurrentS - PrevS) * WheelCircumference / tpr;
 
     //returns the absolute values of DeltaL and R
-    DeltaL = fabs(DeltaL);
-    DeltaR = fabs(DeltaR);
+    // DeltaL = fabs(DeltaL);
+    // DeltaR = fabs(DeltaR);
     //DeltaS = fabs(DeltaR);
 
-    DeltaTheta = (DeltaL - DeltaR) / (Tl + Tr);
+    DeltaTheta = (DeltaL - DeltaR) / (Tl + Tr);  //rad
 
     if(DeltaTheta == 0){
       X += DeltaR * sin(Theta);
       Y += DeltaR * cos(Theta);
+      
     }
     else {
       YChord = 2 * (DeltaR / DeltaTheta + Tr) * sin(DeltaTheta / 2); //Y coordinate vector - X chord not required
@@ -66,7 +67,14 @@ void Odometry(){
       Y += DeltaY;
     }
 
-    OdometryHeading = Inertial.get_heading();
+    //OdometryHeading = Inertial.get_heading();
+    OdometryHeading = Theta * (M_PI / 180);
+
+    pros::screen::set_pen(COLOR_BLUE);
+    pros::screen::print(TEXT_MEDIUM, 3, "X coord: %3d", X);
+    pros::screen::print(TEXT_MEDIUM, 4, "Y coord: %3d", Y);
+
+      //pros::screen::print(pros::TEXT_MEDIUM, 3, "Seconds Passed: %3d", i++);
 
     //Resetting the change in turn angle for the next loop
     DeltaTheta = 0;
@@ -74,7 +82,9 @@ void Odometry(){
     PrevL = CurrentL;
     PrevR = CurrentR;
 
-  }
+    pros::delay(1000);
+
+  //}
 }
 
 

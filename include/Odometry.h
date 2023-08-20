@@ -4,16 +4,20 @@
 
 
 class OdometryClass{
-    public:
-    
+    public://inline
+    double Radians(int degrees){
+      return (degrees * M_PI) / 180;
+    }
+    void Odometry();
 
+    
     //Odometry variables
     double DeltaL, DeltaR, DeltaB;
     double DeltaTheta, Theta;
     //double PrevL, PrevR;
     double CurrentL, CurrentR;
     
-    double X, Y;
+    double X = 0, Y = 0;
     double DeltaX, DeltaY;
     double YChord;
     double OdometryHeading, GyroHeading;
@@ -26,15 +30,13 @@ class OdometryClass{
     double TurnAngle;
     
     //Function to convert from degrees to radians
-    double Radians(int degrees){
-      return (degrees * M_PI) / 180;
-    }
+    
     
     bool set_Heading = false;
     double PrevL = 0;
     double PrevR = 0;
 
-  void Odometry();
+    
 
    
 };
