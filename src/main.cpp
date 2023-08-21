@@ -34,11 +34,39 @@ void on_center_button() {
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
+
+ 
+
 void initialize() {
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello");
 
 	pros::lcd::register_btn1_cb(on_center_button);
+
+	// pros::Controller master(pros::E_CONTROLLER_MASTER);
+	// pros::Motor FrontLeft(15, pros::motor_gearset_e::E_MOTOR_GEARSET_06, true, pros::motor_encoder_units_e_t::E_MOTOR_ENCODER_DEGREES);
+	// pros::Motor FrontRight(16, pros::motor_gearset_e::E_MOTOR_GEARSET_06, false, pros::motor_encoder_units_e_t::E_MOTOR_ENCODER_DEGREES);
+	// pros::Motor MiddleLeft(13, pros::motor_gearset_e::E_MOTOR_GEARSET_06, false, pros::motor_encoder_units_e_t::E_MOTOR_ENCODER_DEGREES);
+	// pros::Motor MiddleRight(8, pros::motor_gearset_e::E_MOTOR_GEARSET_06, true, pros::motor_encoder_units_e_t::E_MOTOR_ENCODER_DEGREES);
+	// pros::Motor BackLeft(20, pros::motor_gearset_e::E_MOTOR_GEARSET_06, false, pros::motor_encoder_units_e_t::E_MOTOR_ENCODER_DEGREES);
+	// pros::Motor BackRight(14, pros::motor_gearset_e::E_MOTOR_GEARSET_06, true, pros::motor_encoder_units_e_t::E_MOTOR_ENCODER_DEGREES);
+
+	pros::Motor FrontLeft(15, true);
+	pros::Motor FrontRight(16);
+	pros::Motor MiddleLeft(13);
+	pros::Motor MiddleRight(8, true);
+	pros::Motor BackLeft(20);
+	pros::Motor BackRight(14, true);
+
+	// FrontLeft.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
+	// FrontRight.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
+	// MiddleLeft.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
+	// MiddleRight.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
+	// BackLeft.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
+	// BackRight.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
+
+
+	
 }
 
 /**
@@ -87,14 +115,25 @@ void competition_initialize() {
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
+
+//  pros::Motor FrontLeft(15, pros::motor_gearset_e::E_MOTOR_GEARSET_06, true, pros::motor_encoder_units_e_t::E_MOTOR_ENCODER_DEGREES );   
+// 	pros::Motor FrontRight(16, pros::motor_gearset_e::E_MOTOR_GEARSET_06, false, pros::motor_encoder_units_e_t::E_MOTOR_ENCODER_DEGREES	);
+// 	pros::Motor MiddleLeft(13, pros::motor_gearset_e::E_MOTOR_GEARSET_06, false, pros::motor_encoder_units_e_t::E_MOTOR_ENCODER_DEGREES);
 void autonomous() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor FrontLeft(15, true);   
+	pros::Motor FrontLeft(15, true);
 	pros::Motor FrontRight(16);
 	pros::Motor MiddleLeft(13);
 	pros::Motor MiddleRight(8, true);
 	pros::Motor BackLeft(20);
 	pros::Motor BackRight(14, true);
+
+	// FrontLeft.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
+	// FrontRight.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
+	// MiddleLeft.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
+	// MiddleRight.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
+	// BackLeft.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
+	// BackRight.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
 
 	pros::Imu Inertial(12);
 	pros::Vision VisionSensor(9);
@@ -132,12 +171,20 @@ void opcontrol() {
 	
 
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor FrontLeft(15, true);   
+	pros::Motor FrontLeft(15, true);
 	pros::Motor FrontRight(16);
 	pros::Motor MiddleLeft(13);
 	pros::Motor MiddleRight(8, true);
 	pros::Motor BackLeft(20);
 	pros::Motor BackRight(14, true);
+
+
+	FrontLeft.tare_position();
+	FrontRight.tare_position();
+	MiddleLeft.tare_position();
+	MiddleRight.tare_position();
+	BackLeft.tare_position();
+	BackRight.tare_position();
 
 	pros::Imu Inertial(12);
 	pros::Vision VisionSensor(9);
@@ -148,36 +195,14 @@ void opcontrol() {
 	OdometryClass odometryInstance;
 
 
-	// std::thread OdometryThread(odometry.Odometry);
-
-	// std::thread odometryThread([&odometry]() {
-    //     while (true) {
-    //         odometry.UpdateOdometry(); // Update odometry data
-
-    //         pros::delay(2);
-    //     }
-    // });
-
-	// try{
-	// 	while(true){
-	// 		int power = master.get_analog(ANALOG_LEFT_Y);
-    //         int turn = master.get_analog(ANALOG_RIGHT_X);
-    //         int left = power + turn;
-    //         int right = power - turn;
-    //         leftMotorGroup.move(left);
-    //         rightMotorGroup.move(right);
-
-    //         pros::delay(2);
-	// 	}
-	// }
-	// catch(const std::exception& e){
-	// 	OdometryThread.join();
-	// 	throw e;
-	// }
-
 
 	while (true) {
 
+	//arcade control
+	// double leftEncoder = MiddleLeft.get_position();
+	// double rightEncoder = FrontRight.get_position();
+	// pros::screen::print(TEXT_MEDIUM, 2, "LeftEncoder: %3d" , leftEncoder);
+    // pros::screen::print(TEXT_MEDIUM, 3, "RightEncoder: %3d", rightEncoder);
 
     int power = master.get_analog(ANALOG_LEFT_Y);
     int turn = master.get_analog(ANALOG_RIGHT_X);
@@ -185,15 +210,10 @@ void opcontrol() {
     int right = power - turn;
     leftMotorGroup.move(left);
     rightMotorGroup.move(right);
-
-
-
+	
 	odometryInstance.Odometry();
 
-    pros::delay(1000);
-
-	
-
+    pros::delay(20);
 
 	}
     

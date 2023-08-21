@@ -1,6 +1,8 @@
 #pragma once
 
 #include <math.h>
+#include "main.h"
+
 
 
 class OdometryClass{
@@ -12,15 +14,15 @@ class OdometryClass{
 
     
     //Odometry variables
-    double DeltaL, DeltaR, DeltaB;
-    double DeltaTheta, Theta;
+    float DeltaL, DeltaR, DeltaB;
+    float DeltaTheta, Theta;
     //double PrevL, PrevR;
-    double CurrentL, CurrentR;
+    float CurrentL, CurrentR;
     
-    double X = 0, Y = 0;
-    double DeltaX, DeltaY;
-    double YChord;
-    double OdometryHeading, GyroHeading;
+    float X = 0, Y = 0;
+    float DeltaX, DeltaY;
+    float YChord;
+    float OdometryHeading, GyroHeading;
     
     // Pure Persuit variables
     double DesiredX, DesiredY, DesiredHeading;
@@ -35,9 +37,6 @@ class OdometryClass{
     bool set_Heading = false;
     double PrevL = 0;
     double PrevR = 0;
-
-    
-
    
 };
 
