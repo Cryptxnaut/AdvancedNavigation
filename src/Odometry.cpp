@@ -43,71 +43,79 @@ pros::Imu Inertial(12);
 //Class
 
 void OdometryClass::Odometry(){
+
+  FrontLeft.set_encoder_units(pros::E_MOTOR_ENCODER_COUNTS);
+	FrontRight.set_encoder_units(pros::E_MOTOR_ENCODER_COUNTS);
+	MiddleLeft.set_encoder_units(pros::E_MOTOR_ENCODER_COUNTS);
+	MiddleRight.set_encoder_units(pros::E_MOTOR_ENCODER_COUNTS);
+	BackLeft.set_encoder_units(pros::E_MOTOR_ENCODER_COUNTS);
+	BackRight.set_encoder_units(pros::E_MOTOR_ENCODER_COUNTS);
+
   
   
+  while(true){
   
-  
 
 
-  CurrentL = MiddleLeft.get_position();
-  CurrentR = FrontRight.get_position();
+    CurrentL = MiddleLeft.get_position();
+    CurrentR = FrontRight.get_position();
 
-  CurrentL = fabs(CurrentL);
-  CurrentR = fabs(CurrentR);
-  //CurrentS = BackEncoder.get_position();
+    CurrentL = fabs(CurrentL);
+    CurrentR = fabs(CurrentR);
+    //CurrentS = BackEncoder.get_position();
 
-  //Calculates the distance moved by the left and right odometry wheels
-  DeltaL = ((CurrentL - PrevL) * WheelCircumference )/ tpr;
-  DeltaR = ((CurrentR - PrevR) * WheelCircumference) / tpr;
-  //Delta S = (CurrentS - PrevS) * WheelCircumference / tpr;
+    //Calculates the distance moved by the left and right odometry wheels
+    DeltaL = ((CurrentL - PrevL) * WheelCircumference )/ tpr;
+    DeltaR = ((CurrentR - PrevR) * WheelCircumference) / tpr;
+    //Delta S = (CurrentS - PrevS) * WheelCircumference / tpr;
 
-  //returns the absolute values of DeltaL and R
-  // DeltaL = fabs(DeltaL);
-  // DeltaR = fabs(DeltaR);
-  //DeltaS = fabs(DeltaR);
+    //returns the absolute values of DeltaL and R
+    // DeltaL = fabs(DeltaL);
+    // DeltaR = fabs(DeltaR);
+    //DeltaS = fabs(DeltaR);
 
 
-  DeltaTheta = (DeltaL - DeltaR) / (Tl + Tr);  //rad
+    DeltaTheta = (DeltaL - DeltaR) / (Tl + Tr);  //rad
 
-  if(DeltaTheta == 0){
-    X += DeltaL * sin(Theta);
-    Y += DeltaL * cos(Theta);
-    
+    if(DeltaTheta == 0){
+      X += DeltaL * sin(Theta);
+      Y += DeltaL * cos(Theta);
+      
+    }
+    else {
+      YChord = 2 * (DeltaL / DeltaTheta + Tl) * sin(DeltaTheta / 2); //Y coordinate vector - X chord not required
+      //XChord = 2 * (DeltaS / DeltaTheta + Ts) * sin(DeltaTheta / 2);
+      DeltaX = YChord * sin(Theta + (DeltaTheta / 2));
+      DeltaY = YChord * cos(Theta + (DeltaTheta / 2));
+      Theta += DeltaTheta;
+      X += DeltaX;
+      Y += DeltaY;
+    }
+
+    //OdometryHeading = Inertial.get_heading();
+    OdometryHeading = Theta * (M_PI / 180);
+
+    pros::screen::set_pen(COLOR_BLUE);
+    //pros::screen::print(TEXT_MEDIUM, 2, "Hello1: %f");
+    pros::screen::print(TEXT_MEDIUM, 3, "CurrentL: %f",CurrentL );
+    pros::screen::print(TEXT_MEDIUM, 4, "DeltaL: %f", DeltaL);
+    pros::screen::print(TEXT_MEDIUM, 5, "CurrentR: %f", CurrentR);
+    pros::screen::print(TEXT_MEDIUM, 6, "DeltaR: %f", DeltaR);
+    pros::screen::print(TEXT_MEDIUM, 7, "PrevL: %f",PrevL );
+    pros::screen::print(TEXT_MEDIUM, 8, "PrevR: %f", PrevR);
+    pros::screen::print(TEXT_MEDIUM, 9, "X coord: %lf", X);
+    pros::screen::print(TEXT_MEDIUM, 10, "Y coord: %lf", Y);
+
+
+
+    //Resetting the change in turn angle for the next loop
+    DeltaTheta = 0;
+    //Resets the change in movement of the odometry wheels for the next movement
+    PrevL = CurrentL;
+    PrevR = CurrentR;
+
+    pros::delay(20);
   }
-  else {
-    YChord = 2 * (DeltaL / DeltaTheta + Tl) * sin(DeltaTheta / 2); //Y coordinate vector - X chord not required
-    //XChord = 2 * (DeltaS / DeltaTheta + Ts) * sin(DeltaTheta / 2);
-    DeltaX = YChord * sin(Theta + (DeltaTheta / 2));
-    DeltaY = YChord * cos(Theta + (DeltaTheta / 2));
-    Theta += DeltaTheta;
-    X += DeltaX;
-    Y += DeltaY;
-  }
-
-  //OdometryHeading = Inertial.get_heading();
-  OdometryHeading = Theta * (M_PI / 180);
-
-  pros::screen::set_pen(COLOR_BLUE);
-  pros::screen::print(TEXT_MEDIUM, 2, "Hello1: %f");
-  pros::screen::print(TEXT_MEDIUM, 3, "CurrentL: %f",CurrentL );
-  pros::screen::print(TEXT_MEDIUM, 4, "DeltaL: %f", DeltaL);
-  pros::screen::print(TEXT_MEDIUM, 5, "CurrentR: %f", CurrentR);
-  pros::screen::print(TEXT_MEDIUM, 6, "DeltaR: %f", DeltaR);
-  pros::screen::print(TEXT_MEDIUM, 7, "PrevL: %f",PrevL );
-  pros::screen::print(TEXT_MEDIUM, 8, "PrevR: %f", PrevR);
-  pros::screen::print(TEXT_MEDIUM, 9, "X coord: %lf", X);
-  pros::screen::print(TEXT_MEDIUM, 10, "Y coord: %lf", Y);
-
-
-
-  //Resetting the change in turn angle for the next loop
-  DeltaTheta = 0;
-  //Resets the change in movement of the odometry wheels for the next movement
-  PrevL = CurrentL;
-  PrevR = CurrentR;
-
-  pros::delay(20);
-
 
   
 }

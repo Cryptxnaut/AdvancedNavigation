@@ -58,12 +58,7 @@ void initialize() {
 	pros::Motor BackLeft(20);
 	pros::Motor BackRight(14, true);
 
-	// FrontLeft.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
-	// FrontRight.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
-	// MiddleLeft.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
-	// MiddleRight.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
-	// BackLeft.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
-	// BackRight.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
+	
 
 
 	
@@ -128,12 +123,12 @@ void autonomous() {
 	pros::Motor BackLeft(20);
 	pros::Motor BackRight(14, true);
 
-	// FrontLeft.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
-	// FrontRight.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
-	// MiddleLeft.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
-	// MiddleRight.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
-	// BackLeft.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
-	// BackRight.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
+	FrontLeft.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
+	FrontRight.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
+	MiddleLeft.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
+	MiddleRight.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
+	BackLeft.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
+	BackRight.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
 
 	pros::Imu Inertial(12);
 	pros::Vision VisionSensor(9);
@@ -178,6 +173,7 @@ void opcontrol() {
 	pros::Motor BackLeft(20);
 	pros::Motor BackRight(14, true);
 
+	
 
 	FrontLeft.tare_position();
 	FrontRight.tare_position();
@@ -204,10 +200,16 @@ void opcontrol() {
 	// pros::screen::print(TEXT_MEDIUM, 2, "LeftEncoder: %3d" , leftEncoder);
     // pros::screen::print(TEXT_MEDIUM, 3, "RightEncoder: %3d", rightEncoder);
 
-    int power = master.get_analog(ANALOG_LEFT_Y);
-    int turn = master.get_analog(ANALOG_RIGHT_X);
-    int left = power + turn;
-    int right = power - turn;
+    // int power = master.get_analog(ANALOG_LEFT_Y);
+    // int turn = master.get_analog(ANALOG_RIGHT_X);
+    // int left = power + turn;
+    // int right = power - turn;
+
+	
+    int left = master.get_analog(ANALOG_LEFT_Y);
+    int right = master.get_analog(ANALOG_RIGHT_Y);
+    right *= -1;
+
     leftMotorGroup.move(left);
     rightMotorGroup.move(right);
 	
