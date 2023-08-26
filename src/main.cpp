@@ -114,6 +114,8 @@ void competition_initialize() {
 //  pros::Motor FrontLeft(15, pros::motor_gearset_e::E_MOTOR_GEARSET_06, true, pros::motor_encoder_units_e_t::E_MOTOR_ENCODER_DEGREES );   
 // 	pros::Motor FrontRight(16, pros::motor_gearset_e::E_MOTOR_GEARSET_06, false, pros::motor_encoder_units_e_t::E_MOTOR_ENCODER_DEGREES	);
 // 	pros::Motor MiddleLeft(13, pros::motor_gearset_e::E_MOTOR_GEARSET_06, false, pros::motor_encoder_units_e_t::E_MOTOR_ENCODER_DEGREES);
+
+
 void autonomous() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
 	pros::Motor FrontLeft(15, true);
@@ -136,31 +138,76 @@ void autonomous() {
 	pros::Motor_Group leftMotorGroup ({FrontLeft, MiddleLeft, BackLeft});
 	pros::Motor_Group rightMotorGroup ({FrontRight, MiddleRight, BackRight});
 
-	PurePursuitClass PurePursuit;
 	OdometryClass odometryInstance;
 
+	pros::Task odometryTask(odometryTask, &odometryInstance);
+	pros::Task PurePursuitTask(PurePursuitTask, &odometryInstance);
 
-	std::vector<wayPoints> path = {
-        {0.0, 0.0},
-        {10.0, 10.0},
-        {54.0, 54.0},
-        {90.0, 30.0},
-        {100.0, 90.0}
-    };
+	pros::delay(20);
 
-	robotState robot = {
-		0.0, 0.0
-		// Odometry.X,
-		// Odometry.Y
-		// Odometry.Theta,
-		// Odometry.DeltaTheta,
-		// Odometry.DeltaTheta
-	};
+	odometryTask.remove();
+	PurePursuitTask.remove();
 
-	PurePursuit.PurePursuit(path, robot);
-	odometryInstance.Odometry();
+
+	// PurePursuitClass PurePursuit;
+	// OdometryClass odometryInstance;
+	// OdometryClass Odometry;
+
+
+	// std::vector<wayPoints> path = {
+    //     {0.0, 0.0},
+    //     {10.0, 10.0},
+    //     {54.0, 54.0},
+    //     {90.0, 30.0},
+    //     {100.0, 90.0}
+    // };
+
+	// robotState robot = {
+	// 	// 0.0, 0.0
+	// 	Odometry.X,
+	// 	Odometry.Y,
+	// 	Odometry.Theta,
+	// 	Odometry.DeltaTheta,
+	// 	Odometry.DeltaTheta
+	// };
+
+	// PurePursuit.PurePursuit(path, robot);
+	// odometryInstance.Odometry();
 	//moveForward(3.25);
 	
+}
+
+void odometryTask(void* param){
+	OdometryClass* odometryInstance = static_cast<OdometryClass*>(param);
+	while (true){
+		odometryInstance->Odometry();
+		pros::delay(10);
+	}
+}
+
+void PurePursuitTask(void* param){
+	OdometryClass* odometryInstance = static_cast<OdometryClass*>(param);
+	PurePursuitClass PurePursuit;
+	while (true){
+		robotState robot = {
+			odometryInstance->X,
+			odometryInstance->Y,
+			odometryInstance->Theta,
+			odometryInstance->DeltaTheta,
+			odometryInstance->DeltaTheta
+		};
+
+		std::vector<wayPoints> path = {
+			{0.0, 0.0},
+			{10.0, 10.0},
+			{54.0, 54.0},
+			{90.0, 30.0},
+			{100.0, 90.0}
+		};
+
+		PurePursuit.PurePursuit(path, robot);
+		pros::delay(10);
+	}
 }
 
 void opcontrol() {

@@ -5,9 +5,9 @@
 struct robotState{
   double x;
   double y;
-  // double theta;
-  // double linearVelocity;
-  // double angularVelocity;
+  double theta;
+  double linearVelocity;
+  double angularVelocity;
 };
 
 //using wayPoints = std::pair<double, double>;
