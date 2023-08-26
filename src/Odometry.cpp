@@ -60,8 +60,8 @@ void OdometryClass::Odometry(){
     CurrentL = MiddleLeft.get_position();
     CurrentR = FrontRight.get_position();
 
-    CurrentL = fabs(CurrentL);
-    CurrentR = fabs(CurrentR);
+    // CurrentL = fabs(CurrentL);
+    // CurrentR = fabs(CurrentR);
     //CurrentS = BackEncoder.get_position();
 
     //Calculates the distance moved by the left and right odometry wheels
@@ -116,6 +116,8 @@ void OdometryClass::Odometry(){
 
     pros::delay(20);
   }
+
+  
 
   
 }

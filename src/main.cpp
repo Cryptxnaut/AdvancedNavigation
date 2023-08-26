@@ -137,28 +137,29 @@ void autonomous() {
 	pros::Motor_Group rightMotorGroup ({FrontRight, MiddleRight, BackRight});
 
 	PurePursuitClass PurePursuit;
-	OdometryClass Odometry;	
+	OdometryClass odometryInstance;
+
 
 	std::vector<wayPoints> path = {
         {0.0, 0.0},
-        {0.0, 1.0},
-        {1.0, 1.0},
-        {1.0, 0.0},
-        {0.0, 0.0}
+        {10.0, 10.0},
+        {54.0, 54.0},
+        {90.0, 30.0},
+        {100.0, 90.0}
     };
 
 	robotState robot = {
-		Odometry.X,
-		Odometry.Y,
-		Odometry.Theta,
-		Odometry.DeltaTheta,
-		Odometry.DeltaTheta
+		0.0, 0.0
+		// Odometry.X,
+		// Odometry.Y
+		// Odometry.Theta,
+		// Odometry.DeltaTheta,
+		// Odometry.DeltaTheta
 	};
 
-	// PurePursuit.PurePursuit(path, robot);
-	OdometryClass odometryInstance;
+	PurePursuit.PurePursuit(path, robot);
 	odometryInstance.Odometry();
-	moveForward(3.25);
+	//moveForward(3.25);
 	
 }
 

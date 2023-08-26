@@ -7,8 +7,8 @@
 void moveForward(double distance){
     int ticks = static_cast<int>((distance / (M_PI * wheelDiameter)) * 360);
 
-    leftMotorGroup.move_relative(ticks, 100);
-    rightMotorGroup.move_relative(ticks, 100);    
+    leftMotorGroup.move_relative(ticks, MAX_SPEED);
+    rightMotorGroup.move_relative(ticks, MAX_SPEED);    
 }
 
 void turnLeft(double angle){
