@@ -21,9 +21,9 @@ class PIDcontroller{
     const double wheelDiameter = 3.250;
     double distance;
     
-    double kP = 0.0;
-    double kI = 0.0;
-    double kD = 0.0;
+    double kP = 0.3;
+    double kI = 0.0021;
+    double kD = 0.047;
 
     double desiredValue;
 

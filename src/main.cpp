@@ -170,59 +170,59 @@ void autonomous() {
 	pros::Motor_Group leftMotorGroup ({FrontLeft, MiddleLeft, BackLeft});
 	pros::Motor_Group rightMotorGroup ({FrontRight, MiddleRight, BackRight});
 
-	PIDcontroller PIDInstance;
+	// PIDcontroller PIDInstance;
 
-	PIDInstance.setGains(0.1, 0.01, 0.1);
-	PIDInstance.setDesiredValue(200);
+	// PIDInstance.setGains(0.1, 0.01, 0.1);
+	// PIDInstance.setDesiredValue(200);
 
 	while(true){
-		// OdometryClass odometryInstance;
+		OdometryClass odometryInstance;
 
-		// pros::Task odometryTask(odometryTaskWrapper, &odometryInstance);
-		// pros::Task PurePursuitTask(PurePursuitTaskWrapper, &odometryInstance);
+		pros::Task odometryTask(odometryTaskWrapper, &odometryInstance);
+		pros::Task PurePursuitTask(PurePursuitTaskWrapper, &odometryInstance);
 
-		// pros::delay(20);
+		pros::delay(20);
 
-		// odometryTask.remove();
-		// PurePursuitTask.remove();
+		odometryTask.remove();
+		PurePursuitTask.remove();
 
-		double motorPower = PIDInstance.getMotorPower();
-		leftMotorGroup.move_relative(200, motorPower);
-        rightMotorGroup.move_relative(200, motorPower);
+		// double motorPower = PIDInstance.getMotorPower();
+		// leftMotorGroup.move_relative(200, motorPower);
+        // rightMotorGroup.move_relative(200, motorPower);
     
 
 	}
 
 	
 
-	// PurePursuitClass PurePursuit;
-	// OdometryClass odometryInstance;
-	// OdometryClass Odometry;
+	PurePursuitClass PurePursuit;
+	OdometryClass odometryInstance;
+	OdometryClass Odometry;
 
 
-	// std::vector<wayPoints> path = {
-    //     {0.0, 0.0},
-    //     {10.0, 10.0},
-    //     {54.0, 54.0},
-    //     {90.0, 30.0},
-    //     {100.0, 90.0}
-    // };
+	std::vector<wayPoints> path = {
+        {0.0, 0.0},
+        {10.0, 10.0},
+        {54.0, 54.0},
+        {90.0, 30.0},
+        {100.0, 90.0}
+    };
 
-	// robotState robot = {
-	// 	// 0.0, 0.0
-	// 	Odometry.X,
-	// 	Odometry.Y,
-	// 	Odometry.Theta,
-	// 	Odometry.DeltaTheta,
-	// 	Odometry.DeltaTheta
-	// };
+	robotState robot = {
+		// 0.0, 0.0
+		Odometry.X,
+		Odometry.Y,
+		Odometry.Theta,
+		Odometry.DeltaTheta,
+		Odometry.DeltaTheta
+	};
 
-	// PurePursuit.PurePursuit(path, robot);
-	// odometryInstance.Odometry();
+	PurePursuit.PurePursuit(path, robot);
+	odometryInstance.Odometry();
 	//moveForward(3.25);
 	
 }
-
+//OdometryClass odometryInstance;
 
 void opcontrol() {
 	
@@ -245,39 +245,47 @@ void opcontrol() {
 	BackRight.tare_position();
 
 	pros::Imu Inertial(12);
-	pros::Vision VisionSensor(9);
+	//pros::Vision VisionSensor(9);
 
 	pros::Motor_Group leftMotorGroup ({FrontLeft, MiddleLeft, BackLeft});
 	pros::Motor_Group rightMotorGroup ({FrontRight, MiddleRight, BackRight});
 
+	//pros::Task odometryTask(odometryTaskWrapper, nullptr);
 	OdometryClass odometryInstance;
-
+	//odometryInstance.Odometry();
+    //pros::Task odometryTask(odometryTaskWrapper, &odometryInstance);
+    //pros::Task PurePursuitTask(PurePursuitTaskWrapper, &odometryInstance);
+    //pros::delay(20);
+    //odometryTask.remove();
+    //PurePursuitTask.remove();
 
 
 	while (true) {
 
-	//arcade control
-	// double leftEncoder = MiddleLeft.get_position();
-	// double rightEncoder = FrontRight.get_position();
-	// pros::screen::print(TEXT_MEDIUM, 2, "LeftEncoder: %3d" , leftEncoder);
-    // pros::screen::print(TEXT_MEDIUM, 3, "RightEncoder: %3d", rightEncoder);
-
-    // int power = master.get_analog(ANALOG_LEFT_Y);
-    // int turn = master.get_analog(ANALOG_RIGHT_X);
-    // int left = power + turn;
-    // int right = power - turn;
+    int power = master.get_analog(ANALOG_LEFT_Y);
+    int turn = master.get_analog(ANALOG_RIGHT_X);
+    int left = power + turn;
+    int right = power - turn;
+	
+    // int left = master.get_analog(ANALOG_LEFT_Y);
+    // int right = master.get_analog(ANALOG_RIGHT_Y);
+    // right *= -1;
+    
+    
+	//pros::delay(20);
 
 	
-    int left = master.get_analog(ANALOG_LEFT_Y);
-    int right = master.get_analog(ANALOG_RIGHT_Y);
-    right *= -1;
-
-    leftMotorGroup.move(left);
-    rightMotorGroup.move(right);
-	
-	odometryInstance.Odometry();
-
     pros::delay(20);
+
+    pros::Task odometryTask(odometryTaskWrapper, &odometryInstance);
+    odometryTask.remove();
+
+	
+	
+    pros::delay(20);
+	leftMotorGroup.move(left);
+    rightMotorGroup.move(right);
+
 
 	}
     

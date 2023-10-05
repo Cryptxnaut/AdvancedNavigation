@@ -78,15 +78,15 @@ void PurePursuitClass::PurePursuit(std::vector<wayPoints>& path, robotState& rob
         double rightMotorSpeed = linearVelocity + (curvature * wheelBase) / 2;
 
         //Set the motor speeds
-        leftMotorGroup.move_velocity(leftMotorSpeed);
-        rightMotorGroup.move_velocity(rightMotorSpeed);
+        // leftMotorGroup.move_velocity(leftMotorSpeed);
+        // rightMotorGroup.move_velocity(rightMotorSpeed);
 
         pros::delay(10);
 
     }
 
-    leftMotorGroup.move_velocity(0);
-    rightMotorGroup.move_velocity(0);
+    // leftMotorGroup.move_velocity(0);
+    // rightMotorGroup.move_velocity(0);
 
     std::cout << "Robot has reached the final destination" << std::endl;
 

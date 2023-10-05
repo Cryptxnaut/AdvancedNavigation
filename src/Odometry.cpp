@@ -40,8 +40,6 @@ pros::Imu Inertial(12);
 
 #define COMPETITION_MODE true
 
-//Class
-
 void OdometryClass::Odometry(){
 
   FrontLeft.set_encoder_units(pros::E_MOTOR_ENCODER_COUNTS);
@@ -55,8 +53,6 @@ void OdometryClass::Odometry(){
   
   while(true){
   
-
-
     CurrentL = MiddleLeft.get_position();
     CurrentR = FrontRight.get_position();
 
@@ -73,7 +69,6 @@ void OdometryClass::Odometry(){
     // DeltaL = fabs(DeltaL);
     // DeltaR = fabs(DeltaR);
     //DeltaS = fabs(DeltaR);
-
 
     DeltaTheta = (DeltaL - DeltaR) / (Tl + Tr);  //rad
 
@@ -106,8 +101,6 @@ void OdometryClass::Odometry(){
     pros::screen::print(TEXT_MEDIUM, 9, "X coord: %lf", X);
     pros::screen::print(TEXT_MEDIUM, 10, "Y coord: %lf", Y);
 
-
-
     //Resetting the change in turn angle for the next loop
     DeltaTheta = 0;
     //Resets the change in movement of the odometry wheels for the next movement
@@ -117,9 +110,6 @@ void OdometryClass::Odometry(){
     pros::delay(20);
   }
 
-  
-
-  
 }
 
 
@@ -143,60 +133,60 @@ void OdometryClass::Odometry(){
 
 
 
-// void PurePersuit(){
-//   ChangeinX = DesiredX - X;
-//   ChangeinY = DesiredY - Y;
+void PurePersuit(){
+  ChangeinX = DesiredX - X;
+  ChangeinY = DesiredY - Y;
 
-//   TargetThetaRad = atan(ChangeinY / ChangeinX);
-//   TargetThetaDeg = TargetThetaRad * (180 / M_PI);
-//   TargetDistance = sqrt(pow (ChangeinX, 2) + pow (ChangeinY, 2));
+  TargetThetaRad = atan(ChangeinY / ChangeinX);
+  TargetThetaDeg = TargetThetaRad * (180 / M_PI);
+  TargetDistance = sqrt(pow (ChangeinX, 2) + pow (ChangeinY, 2));
 
-//   IotaSquared = (pow (DesiredX, 2) + pow (DesiredY, 2));
-//   Gamma = (DesiredX * 2) / IotaSquared;
+  IotaSquared = (pow (DesiredX, 2) + pow (DesiredY, 2));
+  Gamma = (DesiredX * 2) / IotaSquared;
 
-//   /////////////////////////////////////////////////////////
-//   //Turn Function
+  /////////////////////////////////////////////////////////
+  //Turn Function
 
-//   odometryHeading = Inertial.get_heading();
+  odometryHeading = Inertial.get_heading();
 
-//   //Quadrant1
-//   TurnAngle = 0;
-//   if ((DesiredX >= X) && (DesiredY >= Y)){
-//     TurnAngle = (GyroHeading + (90 - TargetThetaDeg));
-//   }
-//   //Quadrant 2
-//   if ((DesiredX <= X) && (DesiredY >= Y)){
-//     TurnAngle = (GyroHeading - (90 - TargetThetaDeg));
-//   }
-//   //Quadrant 3
-//   if ((DesiredX < X) && (DesiredY < Y)){
-//     TurnAngle = (GyroHeading - 90 - TargetThetaDeg);
-//   }
-//   //Quadrant 4
-//   if ((DesiredX > X) && (DesiredY < Y)){
-//     TurnAngle = (GyroHeading + 90 + TargetThetaDeg);
-//   }
+  //Quadrant1
+  TurnAngle = 0;
+  if ((DesiredX >= X) && (DesiredY >= Y)){
+    TurnAngle = (GyroHeading + (90 - TargetThetaDeg));
+  }
+  //Quadrant 2
+  if ((DesiredX <= X) && (DesiredY >= Y)){
+    TurnAngle = (GyroHeading - (90 - TargetThetaDeg));
+  }
+  //Quadrant 3
+  if ((DesiredX < X) && (DesiredY < Y)){
+    TurnAngle = (GyroHeading - 90 - TargetThetaDeg);
+  }
+  //Quadrant 4
+  if ((DesiredX > X) && (DesiredY < Y)){
+    TurnAngle = (GyroHeading + 90 + TargetThetaDeg);
+  }
 
-//   bool ret = false;
+  bool ret = false;
 
-//   if (DesiredX >= X){
-//     ret = turn_right (TurnAngle);
-//   }
-//   else if (DesiredX < X || DesiredX == X){
-//     ret = turn_left (TurnAngle);
-//   }
+  if (DesiredX >= X){
+    ret = turn_right (TurnAngle);
+  }
+  else if (DesiredX < X || DesiredX == X){
+    ret = turn_left (TurnAngle);
+  }
 
-//   if (ret == true){
-//     move_forwards_backwards (distance, speed);
-//   }
+  if (ret == true){
+    move_forwards_backwards (distance, speed);
+  }
 
-//   //odometry();
+  //odometry();
 
-//   if((X != std::clamp(DesiredX, DesiredX - 100, DesiredX + 100) || (Y != std::clamp(DesiredY, DesiredY - 100, DesiredY +100)))){
-//     PurePersuit();
-//     pros::delay(5);
-//   }
+  if((X != std::clamp(DesiredX, DesiredX - 100, DesiredX + 100) || (Y != std::clamp(DesiredY, DesiredY - 100, DesiredY +100)))){
+    PurePersuit();
+    pros::delay(5);
+  }
 
-// }
+}
 
 
